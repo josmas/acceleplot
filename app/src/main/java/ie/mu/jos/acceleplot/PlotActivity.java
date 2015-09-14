@@ -1,22 +1,28 @@
 package ie.mu.jos.acceleplot;
 
 import android.app.Activity;
+import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.content.Context;
-import android.os.Build;
 import android.os.Bundle;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.support.v4.widget.DrawerLayout;
-import android.widget.ArrayAdapter;
-import android.widget.TextView;
+
+import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.data.BarData;
+import com.github.mikephil.charting.data.BarDataSet;
+import com.github.mikephil.charting.data.BarEntry;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import ie.mu.jos.acceleplot.chartos.Chartos;
 
 public class PlotActivity extends AppCompatActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks {
@@ -30,6 +36,7 @@ public class PlotActivity extends AppCompatActivity
      * Used to store the last screen title. For use in {@link #restoreActionBar()}.
      */
     private CharSequence mTitle;
+    private String buttonTitle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,12 +66,15 @@ public class PlotActivity extends AppCompatActivity
         switch (number) {
             case 1:
                 mTitle = getString(R.string.title_section1);
+                buttonTitle = "Graph " + mTitle;
                 break;
             case 2:
                 mTitle = getString(R.string.title_section2);
+                buttonTitle = "Graph " + mTitle;
                 break;
             case 3:
                 mTitle = getString(R.string.title_section3);
+                buttonTitle = "Graph " + mTitle;
                 break;
         }
     }
@@ -134,6 +144,12 @@ public class PlotActivity extends AppCompatActivity
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_plot, container, false);
+            View chartInView = rootView.findViewById(R.id.chart);
+
+            Chartos chartos = new Chartos(container.getContext(), Chartos.ChartType.BAR);
+            BarChart chart = chartos.getBarChar();
+            ((ViewGroup)chartInView).addView(chart);
+
             return rootView;
         }
 
@@ -144,5 +160,4 @@ public class PlotActivity extends AppCompatActivity
                     getArguments().getInt(ARG_SECTION_NUMBER));
         }
     }
-
 }
