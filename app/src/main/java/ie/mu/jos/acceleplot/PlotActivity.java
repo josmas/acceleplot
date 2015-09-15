@@ -129,6 +129,7 @@ public class PlotActivity extends AppCompatActivity
          * fragment.
          */
         private static final String ARG_SECTION_NUMBER = "section_number";
+        private static int plotNumber;
 
         /**
          * Returns a new instance of this fragment for the given section
@@ -139,6 +140,8 @@ public class PlotActivity extends AppCompatActivity
             Bundle args = new Bundle();
             args.putInt(ARG_SECTION_NUMBER, sectionNumber);
             fragment.setArguments(args);
+
+            plotNumber = sectionNumber;
             return fragment;
         }
 
@@ -148,17 +151,27 @@ public class PlotActivity extends AppCompatActivity
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_plot, container, false);
+            return inflater.inflate(R.layout.fragment_plot, container, false);
+        }
 
-            //TODO (jos) inject in constructor
-            Chartos chartos = new Chartos(container.getContext(), Chartos.ChartType.BAR);
-            BarChart chart = chartos.getBarChar();
+        @Override
+        public void onActivityCreated(Bundle savedInstanceState) {
+            super.onActivityCreated(savedInstanceState);
+            RelativeLayout rl = (RelativeLayout)getActivity().findViewById(R.id.fragmentRelLayout);
 
-            RelativeLayout rl = (RelativeLayout)rootView.findViewById(R.id.fragmentRelLayout);
-            chart.setLayoutParams(rl.getLayoutParams());
-            rl.addView(chart);
+            if (plotNumber == 1){
+                //TODO (jos) inject in constructor
+                Chartos chartos = new Chartos(getContext(), Chartos.ChartType.BAR);
+                BarChart chart = chartos.getBarChar();
 
-            return rootView;
+                chart.setLayoutParams(rl.getLayoutParams());
+                rl.addView(chart);
+            }
+            else {
+                TextView tv = new TextView(getContext());
+                tv.setText("Nothing to see here for now...");
+                rl.addView(tv);
+            }
         }
 
         @Override
