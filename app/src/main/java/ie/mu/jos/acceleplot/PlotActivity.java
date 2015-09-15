@@ -2,6 +2,7 @@ package ie.mu.jos.acceleplot;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
@@ -13,8 +14,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.support.v4.widget.DrawerLayout;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
@@ -144,11 +149,14 @@ public class PlotActivity extends AppCompatActivity
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_plot, container, false);
-            View chartInView = rootView.findViewById(R.id.chart);
 
+            //TODO (jos) inject in constructor
             Chartos chartos = new Chartos(container.getContext(), Chartos.ChartType.BAR);
             BarChart chart = chartos.getBarChar();
-            ((ViewGroup)chartInView).addView(chart);
+
+            RelativeLayout rl = (RelativeLayout)rootView.findViewById(R.id.fragmentRelLayout);
+            chart.setLayoutParams(rl.getLayoutParams());
+            rl.addView(chart);
 
             return rootView;
         }
