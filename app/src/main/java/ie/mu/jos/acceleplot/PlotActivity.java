@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.support.v4.widget.DrawerLayout;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -27,6 +28,7 @@ import com.github.mikephil.charting.data.BarEntry;
 import java.util.ArrayList;
 import java.util.List;
 
+import ie.mu.jos.acceleplot.accelo.AccelReading;
 import ie.mu.jos.acceleplot.chartos.Chartos;
 
 public class PlotActivity extends AppCompatActivity
@@ -158,8 +160,14 @@ public class PlotActivity extends AppCompatActivity
         public void onActivityCreated(Bundle savedInstanceState) {
             super.onActivityCreated(savedInstanceState);
             RelativeLayout rl = (RelativeLayout)getActivity().findViewById(R.id.fragmentRelLayout);
+            // TODO (jos) creating this guy here means we are creating several ones and we lose the
+            // reference when we change fragments (we cannot stop it other than from the button,
+            // and at the time that it is created). (A singleton won't work on Async code)
+            final AccelReading ar = new AccelReading(this);
 
             if (plotNumber == 1){
+                ar.unregisterSensorListener();
+
                 //TODO (jos) inject in constructor
                 Chartos chartos = new Chartos(getContext(), Chartos.ChartType.BAR);
                 BarChart chart = chartos.getBarChar();
@@ -167,12 +175,28 @@ public class PlotActivity extends AppCompatActivity
                 chart.setLayoutParams(rl.getLayoutParams());
                 rl.addView(chart);
             }
+            else if (plotNumber == 2){
+                ar.registerSensorListener();
+                Button unReg = new Button(getContext());
+                unReg.setText("UnReg");
+                rl.addView(unReg);
+                unReg.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        ar.unregisterSensorListener();
+                    }
+                });
+            }
             else {
+                ar.unregisterSensorListener();
+
                 TextView tv = new TextView(getContext());
                 tv.setText("Nothing to see here for now...");
                 rl.addView(tv);
             }
         }
+
+        //TODO (jos) Have to unregister and register sensors onResume and onStop
 
         @Override
         public void onAttach(Activity activity) {
