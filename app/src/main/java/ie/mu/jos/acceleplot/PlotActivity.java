@@ -135,7 +135,7 @@ public class PlotActivity extends AppCompatActivity
         private static final String ARG_SECTION_NUMBER = "section_number";
         private static int plotNumber;
         private AccelReading arCopy;
-        private TextView readings;
+        private TextView readingsCopy;
 
         /**
          * Returns a new instance of this fragment for the given section
@@ -170,6 +170,7 @@ public class PlotActivity extends AppCompatActivity
             final AccelReading ar = new AccelReading(this);
             arCopy = ar; // Bit of a hack to facilitate unregistering onStop
             final TextView readings = new TextView(getContext());
+            readingsCopy = readings; // Bit of a hack to receive data from AccelReadings
 
             if (plotNumber == 1){
                 //TODO (jos) inject in constructor
@@ -212,6 +213,11 @@ public class PlotActivity extends AppCompatActivity
                 tv.setText("Nothing to see here for now...");
                 rl.addView(tv);
             }
+        }
+
+        public void writeReading(String reading){
+            if (readingsCopy != null)
+                readingsCopy.setText(reading);
         }
 
         @Override

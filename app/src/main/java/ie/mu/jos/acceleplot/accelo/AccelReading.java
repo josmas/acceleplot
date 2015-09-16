@@ -8,11 +8,15 @@ import android.hardware.SensorManager;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 
+import ie.mu.jos.acceleplot.PlotActivity;
+
 public class AccelReading implements SensorEventListener {
 
+    private final PlotActivity.PlaceholderFragment fragment;
     private SensorManager senSensorManager;
 
-    public AccelReading(Fragment fragment){
+    public AccelReading(PlotActivity.PlaceholderFragment fragment){
+        this.fragment = fragment;
         senSensorManager = (SensorManager) fragment.getContext().getSystemService(Context.SENSOR_SERVICE);
     }
 
@@ -32,6 +36,7 @@ public class AccelReading implements SensorEventListener {
     @Override
     public void onSensorChanged(SensorEvent sensorEvent) {
         Log.d("ACCELREADING", "X is: " + sensorEvent.values[0] + " and Y is: " + sensorEvent.values[1]);
+        fragment.writeReading("X is: " + sensorEvent.values[0] + " and Y is: " + sensorEvent.values[1]);
     }
 
     @Override
