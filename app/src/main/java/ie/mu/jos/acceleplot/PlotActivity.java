@@ -173,30 +173,48 @@ public class PlotActivity extends AppCompatActivity
             else if (plotNumber == 2){
 
                 // Creating a linear layout here : It's getting too busy!
-                LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams layoutParamsVert = new LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.MATCH_PARENT,
+                        LinearLayout.LayoutParams.MATCH_PARENT);
+                layoutParamsVert.setMargins(10, 1, 10, 1);
+                final LinearLayout containerLayoutVert = new LinearLayout(getContext());
+                containerLayoutVert.setOrientation(LinearLayout.VERTICAL);
+                containerLayoutVert.setLayoutParams(layoutParamsVert);
+
+                LinearLayout.LayoutParams layoutParamsHor = new LinearLayout.LayoutParams(
                         LinearLayout.LayoutParams.MATCH_PARENT,
                         LinearLayout.LayoutParams.WRAP_CONTENT);
-                layoutParams.setMargins(10, 1, 10, 1);
-
-                LinearLayout containerLayout = new LinearLayout(getContext());
-                containerLayout.setOrientation(LinearLayout.HORIZONTAL);
-                containerLayout.setLayoutParams(layoutParams);
+                layoutParamsHor.setMargins(10, 1, 10, 1);
+                LinearLayout containerLayoutHor = new LinearLayout(getContext());
+                containerLayoutHor.setOrientation(LinearLayout.HORIZONTAL);
+                containerLayoutHor.setLayoutParams(layoutParamsHor);
 
                 ToggleButton toggleAccelReadings = new ToggleButton(getContext());
-                containerLayout.addView(toggleAccelReadings);
+                containerLayoutHor.addView(toggleAccelReadings);
                 toggleAccelReadings.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                    Chartos chartos = new Chartos(getContext(), Chartos.ChartType.LINE);
+                    LineChart lineChart;
                     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                         if (isChecked) { // The toggle is enabled
+                            //TODO (jos) remove all data from Sets for chart
+                            containerLayoutVert.removeViewInLayout(lineChart);
+                            lineChart = null;
                             ar.registerSensorListener();
                             readings.setText("Starting readings...");
                         } else { // The toggle is disabled
                             ar.unregisterSensorListener();
                             readings.setText("no readings...");
+                            lineChart = chartos.getLineChart();
+                            //TODO (jos) set data for chart (from readings method)
+                            lineChart.setLayoutParams(containerLayoutVert.getLayoutParams());
+                            containerLayoutVert.addView(lineChart);
+                            lineChart.invalidate();
                         }
                     }
                 });
-                containerLayout.addView(readings);
-                rl.addView(containerLayout);
+                containerLayoutHor.addView(readings);
+                containerLayoutVert.addView(containerLayoutHor);
+                rl.addView(containerLayoutVert);
             }
             else {
                 Chartos chartos = new Chartos(getContext(), Chartos.ChartType.LINE);
