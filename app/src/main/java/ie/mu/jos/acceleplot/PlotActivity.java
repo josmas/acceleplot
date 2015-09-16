@@ -132,6 +132,7 @@ public class PlotActivity extends AppCompatActivity
          */
         private static final String ARG_SECTION_NUMBER = "section_number";
         private static int plotNumber;
+        private AccelReading arCopy;
 
         /**
          * Returns a new instance of this fragment for the given section
@@ -164,10 +165,9 @@ public class PlotActivity extends AppCompatActivity
             // reference when we change fragments (we cannot stop it other than from the button,
             // and at the time that it is created). (A singleton won't work on Async code)
             final AccelReading ar = new AccelReading(this);
+            arCopy = ar; // Bit of a hack to facilitate unregistering onStop
 
             if (plotNumber == 1){
-                ar.unregisterSensorListener();
-
                 //TODO (jos) inject in constructor
                 Chartos chartos = new Chartos(getContext(), Chartos.ChartType.BAR);
                 BarChart chart = chartos.getBarChar();
@@ -188,15 +188,18 @@ public class PlotActivity extends AppCompatActivity
                 });
             }
             else {
-                ar.unregisterSensorListener();
-
                 TextView tv = new TextView(getContext());
                 tv.setText("Nothing to see here for now...");
                 rl.addView(tv);
             }
         }
 
-        //TODO (jos) Have to unregister and register sensors onResume and onStop
+        @Override
+        public void onStop() {
+            super.onStop();
+            if (arCopy != null)
+                arCopy.unregisterSensorListener();
+        }
 
         @Override
         public void onAttach(Activity activity) {

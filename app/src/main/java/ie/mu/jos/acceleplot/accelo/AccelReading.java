@@ -24,8 +24,6 @@ public class AccelReading implements SensorEventListener {
     }
 
     public void unregisterSensorListener() {
-        Log.d("ACCELREADING", "Calling unregistering but don't really caring about it");
-        Log.d("ACCELREADING", "Calling unregistering but don't really caring about it");
         senSensorManager.unregisterListener(
                 this,
                 senSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER));
