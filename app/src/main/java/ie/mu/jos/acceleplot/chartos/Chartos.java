@@ -79,7 +79,7 @@ public class Chartos {
     public LineChart getLineChart(){
         LineChart lineChart = new LineChart(this.context);
         lineChart.setNoDataTextDescription("You need to provide data for the chart.");
-        lineChart.setData(setLineChartData(20, 100));
+        lineChart.setData(setLineChartData(15, 100));
         lineChart.animateX(3000, Easing.EasingOption.EaseInSine);
 
         return lineChart;
@@ -100,8 +100,17 @@ public class Chartos {
             yVals.add(new Entry(val, i));
         }
 
+        ArrayList<Entry> moreVals = new ArrayList<Entry>();
+
+        for (int i = 0; i < count; i++) {
+            float mult = (range + 1);
+            float val = (float) (Math.random() * mult) + 5;// + (float)((mult * 0.1) / 10);
+            moreVals.add(new Entry(val, i));
+        }
+
         // create a dataset and give it a type
         LineDataSet set1 = new LineDataSet(yVals, "DataSet 1");
+        LineDataSet set2 = new LineDataSet(moreVals, "DataSet 2");
 
         set1.setColor(Color.DKGRAY);
         set1.setCircleColor(Color.BLACK);
@@ -112,8 +121,18 @@ public class Chartos {
         set1.setFillAlpha(65);
         set1.setFillColor(Color.BLACK);
 
+        set2.setColor(Color.RED);
+        set2.setCircleColor(Color.RED);
+        set2.setLineWidth(3f);
+        set2.setCircleSize(5f);
+        set2.setDrawCircleHole(false);
+        set2.setValueTextSize(9f);
+        set2.setFillAlpha(65);
+        set2.setFillColor(Color.YELLOW);
+
         ArrayList<LineDataSet> dataSets = new ArrayList<LineDataSet>();
-        dataSets.add(set1); // add the datasets
+        dataSets.add(set1);
+        dataSets.add(set2);
 
         // create a data object with the datasets
         LineData data = new LineData(xVals, dataSets);
