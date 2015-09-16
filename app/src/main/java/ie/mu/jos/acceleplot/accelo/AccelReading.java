@@ -35,7 +35,8 @@ public class AccelReading implements SensorEventListener {
     @Override
     public void onSensorChanged(SensorEvent sensorEvent) {
         Log.d("ACCELREADING", "X is: " + sensorEvent.values[0] + " and Y is: " + sensorEvent.values[1]);
-        fragment.writeReading("X is: " + sensorEvent.values[0] + " and Y is: " + sensorEvent.values[1]);
+        fragment.writeReading("X: " + sensorEvent.values[0] + " Y: " + sensorEvent.values[1],
+                sensorEvent.values[0], sensorEvent.values[1]);
     }
 
     @Override

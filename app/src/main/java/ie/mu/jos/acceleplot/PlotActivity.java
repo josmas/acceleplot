@@ -1,6 +1,7 @@
 package ie.mu.jos.acceleplot;
 
 import android.app.Activity;
+import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
@@ -20,6 +21,11 @@ import android.widget.ToggleButton;
 
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
+
+import java.util.ArrayList;
 
 import ie.mu.jos.acceleplot.accelo.AccelReading;
 import ie.mu.jos.acceleplot.chartos.Chartos;
@@ -196,7 +202,10 @@ public class PlotActivity extends AppCompatActivity
                     LineChart lineChart;
                     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                         if (isChecked) { // The toggle is enabled
-                            //TODO (jos) remove all data from Sets for chart
+                            counter = 0;
+                            xValuesList.clear();
+                            yValuesList.clear();
+
                             containerLayoutVert.removeViewInLayout(lineChart);
                             lineChart = null;
                             ar.registerSensorListener();
@@ -205,7 +214,38 @@ public class PlotActivity extends AppCompatActivity
                             ar.unregisterSensorListener();
                             readings.setText("no readings...");
                             lineChart = chartos.getLineChart(false);
-                            //TODO (jos) set data for chart (from readings method)
+                            //TODO (jos) A lot of messy code here. Abstract it out.
+                            LineDataSet setX = new LineDataSet(xValuesList, "DataSet X");
+                            setX.setColor(Color.DKGRAY);
+                            setX.setCircleColor(Color.BLACK);
+                            setX.setLineWidth(3f);
+                            setX.setCircleSize(5f);
+                            setX.setDrawCircleHole(false);
+                            setX.setValueTextSize(9f);
+                            setX.setFillAlpha(65);
+                            setX.setFillColor(Color.BLACK);
+
+                            LineDataSet setY = new LineDataSet(yValuesList, "DataSet Y");
+                            setY.setColor(Color.RED);
+                            setY.setCircleColor(Color.RED);
+                            setY.setLineWidth(3f);
+                            setY.setCircleSize(5f);
+                            setY.setDrawCircleHole(false);
+                            setY.setValueTextSize(9f);
+                            setY.setFillAlpha(65);
+                            setY.setFillColor(Color.RED);
+
+                            ArrayList<LineDataSet> dataSets = new ArrayList<LineDataSet>();
+                            dataSets.add(setX);
+                            dataSets.add(setY);
+
+                            ArrayList<String> xAxisVals = new ArrayList<String>();
+                            for (int i = 0; i < counter; i++) {
+                                xAxisVals.add((i) + "");
+                            }
+                            LineData data = new LineData(xAxisVals, dataSets);
+                            lineChart.setData(data);
+
                             lineChart.setLayoutParams(containerLayoutVert.getLayoutParams());
                             containerLayoutVert.addView(lineChart);
                             lineChart.invalidate();
@@ -224,9 +264,16 @@ public class PlotActivity extends AppCompatActivity
             }
         }
 
-        public void writeReading(String reading){
-            if (readingsCopy != null)
+        private int counter = 0;
+        ArrayList<Entry> xValuesList = new ArrayList<Entry>();
+        ArrayList<Entry> yValuesList = new ArrayList<Entry>();
+        public void writeReading(String reading, float xValue, float yValue){
+            if (readingsCopy != null){
                 readingsCopy.setText(reading);
+                counter++;
+                xValuesList.add(new Entry(xValue, counter));
+                yValuesList.add(new Entry(yValue, counter));
+            }
         }
 
         @Override
