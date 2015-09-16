@@ -218,33 +218,24 @@ public class PlotActivity extends AppCompatActivity
                             //TODO (jos) A lot of messy code here. Abstract it out.
                             LineDataSet setX = new LineDataSet(xValuesList, "DataSet X");
                             setX.setColor(Color.DKGRAY);
-                            setX.setCircleColor(Color.BLACK);
                             setX.setLineWidth(3f);
-                            setX.setCircleSize(5f);
-                            setX.setDrawCircleHole(false);
-                            setX.setValueTextSize(9f);
-                            setX.setFillAlpha(65);
-                            setX.setFillColor(Color.BLACK);
+                            setX.setDrawCircles(false);
+                            setX.setDrawCubic(true);
+                            setX.setValueTextSize(5f);
 
                             LineDataSet setY = new LineDataSet(yValuesList, "DataSet Y");
                             setY.setColor(Color.RED);
-                            setY.setCircleColor(Color.RED);
+                            setY.setDrawCircles(false);
+                            setY.setDrawCubic(true);
                             setY.setLineWidth(3f);
-                            setY.setCircleSize(5f);
-                            setY.setDrawCircleHole(false);
-                            setY.setValueTextSize(9f);
-                            setY.setFillAlpha(65);
-                            setY.setFillColor(Color.RED);
+                            setY.setValueTextSize(5f);
 
                             LineDataSet setZ = new LineDataSet(zValuesList, "DataSet Z");
                             setZ.setColor(Color.BLUE);
-                            setZ.setCircleColor(Color.BLUE);
                             setZ.setLineWidth(3f);
-                            setZ.setCircleSize(5f);
-                            setZ.setDrawCircleHole(false);
-                            setZ.setValueTextSize(9f);
-                            setZ.setFillAlpha(65);
-                            setZ.setFillColor(Color.BLUE);
+                            setZ.setDrawCircles(false);
+                            setZ.setDrawCubic(true);
+                            setZ.setValueTextSize(5f);
 
                             ArrayList<LineDataSet> dataSets = new ArrayList<LineDataSet>();
                             dataSets.add(setX);
