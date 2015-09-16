@@ -15,9 +15,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.support.v4.widget.DrawerLayout;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.LineChart;
@@ -133,6 +135,7 @@ public class PlotActivity extends AppCompatActivity
         private static final String ARG_SECTION_NUMBER = "section_number";
         private static int plotNumber;
         private AccelReading arCopy;
+        private TextView readings;
 
         /**
          * Returns a new instance of this fragment for the given section
@@ -166,6 +169,7 @@ public class PlotActivity extends AppCompatActivity
             // and at the time that it is created). (A singleton won't work on Async code)
             final AccelReading ar = new AccelReading(this);
             arCopy = ar; // Bit of a hack to facilitate unregistering onStop
+            final TextView readings = new TextView(getContext());
 
             if (plotNumber == 1){
                 //TODO (jos) inject in constructor
@@ -176,16 +180,32 @@ public class PlotActivity extends AppCompatActivity
                 rl.addView(chart);
             }
             else if (plotNumber == 2){
-                ar.registerSensorListener();
-                Button unReg = new Button(getContext());
-                unReg.setText("UnReg");
-                rl.addView(unReg);
-                unReg.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        ar.unregisterSensorListener();
+
+                // Creating a linear layout here : It's getting too busy!
+                LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.MATCH_PARENT,
+                        LinearLayout.LayoutParams.WRAP_CONTENT);
+                layoutParams.setMargins(10, 1, 10, 1);
+
+                LinearLayout containerLayout = new LinearLayout(getContext());
+                containerLayout.setOrientation(LinearLayout.HORIZONTAL);
+                containerLayout.setLayoutParams(layoutParams);
+
+                ToggleButton toggleAccelReadings = new ToggleButton(getContext());
+                containerLayout.addView(toggleAccelReadings);
+                toggleAccelReadings.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        if (isChecked) { // The toggle is enabled
+                            ar.registerSensorListener();
+                            readings.setText("Starting readings...");
+                        } else { // The toggle is disabled
+                            ar.unregisterSensorListener();
+                            readings.setText("no readings...");
+                        }
                     }
                 });
+                containerLayout.addView(readings);
+                rl.addView(containerLayout);
             }
             else {
                 TextView tv = new TextView(getContext());
