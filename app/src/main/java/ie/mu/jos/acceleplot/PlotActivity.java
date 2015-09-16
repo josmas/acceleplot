@@ -205,6 +205,7 @@ public class PlotActivity extends AppCompatActivity
                             counter = 0;
                             xValuesList.clear();
                             yValuesList.clear();
+                            zValuesList.clear();
 
                             containerLayoutVert.removeViewInLayout(lineChart);
                             lineChart = null;
@@ -235,9 +236,20 @@ public class PlotActivity extends AppCompatActivity
                             setY.setFillAlpha(65);
                             setY.setFillColor(Color.RED);
 
+                            LineDataSet setZ = new LineDataSet(zValuesList, "DataSet Z");
+                            setZ.setColor(Color.BLUE);
+                            setZ.setCircleColor(Color.BLUE);
+                            setZ.setLineWidth(3f);
+                            setZ.setCircleSize(5f);
+                            setZ.setDrawCircleHole(false);
+                            setZ.setValueTextSize(9f);
+                            setZ.setFillAlpha(65);
+                            setZ.setFillColor(Color.BLUE);
+
                             ArrayList<LineDataSet> dataSets = new ArrayList<LineDataSet>();
                             dataSets.add(setX);
                             dataSets.add(setY);
+                            dataSets.add(setZ);
 
                             ArrayList<String> xAxisVals = new ArrayList<String>();
                             for (int i = 0; i < counter; i++) {
@@ -267,12 +279,14 @@ public class PlotActivity extends AppCompatActivity
         private int counter = 0;
         ArrayList<Entry> xValuesList = new ArrayList<Entry>();
         ArrayList<Entry> yValuesList = new ArrayList<Entry>();
-        public void writeReading(String reading, float xValue, float yValue){
+        ArrayList<Entry> zValuesList = new ArrayList<Entry>();
+        public void writeReading(String reading, float xValue, float yValue, float zValue){
             if (readingsCopy != null){
                 readingsCopy.setText(reading);
                 counter++;
                 xValuesList.add(new Entry(xValue, counter));
                 yValuesList.add(new Entry(yValue, counter));
+                zValuesList.add(new Entry(zValue, counter));
             }
         }
 
