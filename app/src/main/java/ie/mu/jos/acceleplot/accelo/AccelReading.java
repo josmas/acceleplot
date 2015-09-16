@@ -5,7 +5,6 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
-import android.support.v4.app.Fragment;
 import android.util.Log;
 
 import ie.mu.jos.acceleplot.PlotActivity;
