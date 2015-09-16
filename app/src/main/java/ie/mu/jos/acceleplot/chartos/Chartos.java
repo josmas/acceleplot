@@ -3,6 +3,7 @@ package ie.mu.jos.acceleplot.chartos;
 import android.content.Context;
 import android.graphics.Color;
 
+import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.data.BarData;
@@ -79,6 +80,7 @@ public class Chartos {
         LineChart lineChart = new LineChart(this.context);
         lineChart.setNoDataTextDescription("You need to provide data for the chart.");
         lineChart.setData(setLineChartData(20, 100));
+        lineChart.animateX(3000, Easing.EasingOption.EaseInSine);
 
         return lineChart;
     }
