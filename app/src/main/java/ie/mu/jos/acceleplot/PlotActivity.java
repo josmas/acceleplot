@@ -124,6 +124,9 @@ public class PlotActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
+    // JOS: the idea of recreating the Fragment from the Drawer when the screen contains things as
+    // charts is a bit heavy going. Would be better to have different fragments and create the
+    // layouts for the charts in XML. Next time do not start the project with a fragment activity!
     /**
      * A placeholder fragment containing a simple view.
      */
