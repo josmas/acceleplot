@@ -76,10 +76,11 @@ public class Chartos {
     }
 
     // Line Chart
-    public LineChart getLineChart(){
+    public LineChart getLineChart(boolean withData){
         LineChart lineChart = new LineChart(this.context);
         lineChart.setNoDataTextDescription("You need to provide data for the chart.");
-        lineChart.setData(setLineChartData(15, 100));
+        if (withData)
+            lineChart.setData(setLineChartData(15, 100));
         lineChart.animateX(3000, Easing.EasingOption.EaseInSine);
 
         return lineChart;

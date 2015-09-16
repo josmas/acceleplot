@@ -204,7 +204,7 @@ public class PlotActivity extends AppCompatActivity
                         } else { // The toggle is disabled
                             ar.unregisterSensorListener();
                             readings.setText("no readings...");
-                            lineChart = chartos.getLineChart();
+                            lineChart = chartos.getLineChart(false);
                             //TODO (jos) set data for chart (from readings method)
                             lineChart.setLayoutParams(containerLayoutVert.getLayoutParams());
                             containerLayoutVert.addView(lineChart);
@@ -218,7 +218,7 @@ public class PlotActivity extends AppCompatActivity
             }
             else {
                 Chartos chartos = new Chartos(getContext(), Chartos.ChartType.LINE);
-                LineChart lineChart = chartos.getLineChart();
+                LineChart lineChart = chartos.getLineChart(true);
                 lineChart.setLayoutParams(rl.getLayoutParams());
                 rl.addView(lineChart);
             }
