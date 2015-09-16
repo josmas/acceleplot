@@ -1,6 +1,7 @@
 package ie.mu.jos.acceleplot;
 
 import android.app.Activity;
+import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.ActionBar;
@@ -167,6 +168,10 @@ public class PlotActivity extends AppCompatActivity
             arCopy = ar; // Bit of a hack to facilitate unregistering onStop
             final TextView readings = new TextView(getContext());
             readingsCopy = readings; // Bit of a hack to receive data from AccelReadings
+
+            // Forcing this fragment to Landscape to avoid redrawing big Plots
+            getActivity().setRequestedOrientation(
+                    ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
             if (plotNumber == 1){
                 //TODO (jos) inject in constructor
