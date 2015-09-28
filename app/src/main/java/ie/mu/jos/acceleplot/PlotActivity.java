@@ -277,10 +277,61 @@ public class PlotActivity extends AppCompatActivity
             else {
                 //Plot number is 4
                 Chartos chartos = new Chartos(getContext(), Chartos.ChartType.LINE);
-                LineChart lineChart = chartos.getLineChart(false);
+                LineChart lineChart = chartos.getLineChart(true);
+                lineChart.setDrawGridBackground(false);
+                //TODO (jos) make this less ugly (a lot less ugly!)
+                LineData ld = lineChart.getLineData();
+                ld.getDataSetByIndex(0).setDrawCircles(false);
+                ld.getDataSetByIndex(0).setDrawCubic(true);
+                ld.getDataSetByIndex(1).setDrawCircles(false);
+                ld.getDataSetByIndex(1).setDrawCubic(true);
                 lineChart.setLayoutParams(rl.getLayoutParams());
                 rl.addView(lineChart);
+                feedMultiple(lineChart);
+
             }
+        }
+
+        // Add entry method for the streaming of a line chart (Plot 4)
+        private void addEntry(LineChart lineChart) {
+
+            LineData data = lineChart.getData();
+
+            if (data != null) {
+
+                LineDataSet set = data.getDataSetByIndex(0);
+                data.addXValue("");
+                data.addEntry(new Entry((float) (Math.random() * 40) + 30f, set.getEntryCount()), 0);
+
+                // let the chart know it's data has changed
+                lineChart.notifyDataSetChanged();
+                lineChart.setVisibleXRangeMaximum(120);
+                lineChart.moveViewToX(data.getXValCount() - 121);
+
+            }
+        }
+
+        private void feedMultiple(final LineChart lineChart) {
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    for(int i = 0; i < 500; i++) {
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                addEntry(lineChart);
+                            }
+                        });
+
+                        try {
+                            Thread.sleep(35);
+                        } catch (InterruptedException e) {
+                            // TODO (jos) do something about this
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            }).start();
         }
 
         private int counter = 0;
