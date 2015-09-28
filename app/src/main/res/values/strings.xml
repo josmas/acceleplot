@@ -4,6 +4,7 @@
     <string name="title_section1">Plot 1</string>
     <string name="title_section2">Plot 2</string>
     <string name="title_section3">Plot 3</string>
+    <string name="title_section4">Plot 4</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>

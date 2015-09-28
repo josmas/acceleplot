@@ -79,6 +79,9 @@ public class PlotActivity extends AppCompatActivity
             case 3:
                 mTitle = getString(R.string.title_section3);
                 break;
+            case 4:
+                mTitle = getString(R.string.title_section4);
+                break;
         }
     }
 
@@ -265,9 +268,16 @@ public class PlotActivity extends AppCompatActivity
                 containerLayoutVert.addView(containerLayoutHor);
                 rl.addView(containerLayoutVert);
             }
-            else {
+            else if (plotNumber == 3){
                 Chartos chartos = new Chartos(getContext(), Chartos.ChartType.LINE);
                 LineChart lineChart = chartos.getLineChart(true);
+                lineChart.setLayoutParams(rl.getLayoutParams());
+                rl.addView(lineChart);
+            }
+            else {
+                //Plot number is 4
+                Chartos chartos = new Chartos(getContext(), Chartos.ChartType.LINE);
+                LineChart lineChart = chartos.getLineChart(false);
                 lineChart.setLayoutParams(rl.getLayoutParams());
                 rl.addView(lineChart);
             }
