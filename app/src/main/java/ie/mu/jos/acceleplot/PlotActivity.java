@@ -170,8 +170,9 @@ public class PlotActivity extends AppCompatActivity
             readingsCopy = readings; // Bit of a hack to receive data from AccelReadings
 
             // Forcing this fragment to Landscape to avoid redrawing big Plots
-            getActivity().setRequestedOrientation(
-                    ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+            // TODO (jos) not convinced about locking to landscape - think about it.
+            // getActivity().setRequestedOrientation(
+            //        ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
             if (plotNumber == 1){
                 //TODO (jos) inject in constructor
